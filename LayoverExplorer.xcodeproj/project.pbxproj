@@ -12,6 +12,8 @@
 		DE635AED2A38CBC90010408F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE635AEC2A38CBC90010408F /* Assets.xcassets */; };
 		DE635AF02A38CBC90010408F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE635AEF2A38CBC90010408F /* Preview Assets.xcassets */; };
 		DE635AF72A38CC490010408F /* LayoverDetailsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */; };
+		DE635AF92A38CE2F0010408F /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AF82A38CE2F0010408F /* Countries.swift */; };
+		DE635AFB2A38E3530010408F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AFA2A38E3530010408F /* Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		DE635AEC2A38CBC90010408F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DE635AEF2A38CBC90010408F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoverDetailsForm.swift; sourceTree = "<group>"; };
+		DE635AF82A38CE2F0010408F /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
+		DE635AFA2A38E3530010408F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +62,8 @@
 				DE635AEC2A38CBC90010408F /* Assets.xcassets */,
 				DE635AEE2A38CBC90010408F /* Preview Content */,
 				DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */,
+				DE635AF82A38CE2F0010408F /* Countries.swift */,
+				DE635AFA2A38E3530010408F /* Extensions.swift */,
 			);
 			path = LayoverExplorer;
 			sourceTree = "<group>";
@@ -140,8 +146,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE635AFB2A38E3530010408F /* Extensions.swift in Sources */,
 				DE635AF72A38CC490010408F /* LayoverDetailsForm.swift in Sources */,
 				DE635AEB2A38CBC80010408F /* ContentView.swift in Sources */,
+				DE635AF92A38CE2F0010408F /* Countries.swift in Sources */,
 				DE635AE92A38CBC80010408F /* LayoverExplorerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
