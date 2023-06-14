@@ -31,10 +31,19 @@ struct LayoverDetailsForm: View {
     @State var showCountryList = false
     @State var showBackButton = false
     @State private var isButtonPressed = false
+    
+    @State private var selectedDate = Date()
+    @State var selectedCountry: Country? = nil
     @State var selectedThingsToDo: [String] = []
 
     @Namespace private var namespace
-
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        return formatter
+    }
+    
     func filteredCountries() -> [Country] {
         if (countrySearched.isEmpty)  { return getCountries() }
         return getCountries().filter { country in
@@ -98,34 +107,54 @@ struct LayoverDetailsForm: View {
                 }
             } else {
                 Text("Where's the layover?")
-                    .font(.custom("Roboto-Bold", size: 28))
+                    .font(.custom("Roboto-Bold", size: 20))
                     .frame(maxWidth: .infinity)
                 
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                    TextField("Search country", text: $countrySearched)
-                        .padding(.leading)
-                }
-                .padding()
-                .frame(width: 300, height: 50)
-                .textFieldStyle(DefaultTextFieldStyle())
-                .background(.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color(hex: "#B0B0B0"), lineWidth: 2)
-                )
-                .clipShape(
-                    RoundedRectangle(
-                        cornerRadius: 8
-                    )
-                )
-                .matchedGeometryEffect(id: "rectangle", in: namespace)
-                .onTapGesture {
-                    withTransaction(Transaction(animation: .timingCurve(0.25, 0.7, 0.5, 1.2, duration: 0.3))) {
-
-                        showCountryList.toggle()
+                if (selectedCountry == nil) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        TextField("Search country", text: $countrySearched)
+                            .padding(.leading)
                     }
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .textFieldStyle(DefaultTextFieldStyle())
+                    .background(.white)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color(hex: "#B0B0B0"), lineWidth: 2)
+                    )
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 8
+                        )
+                    )
+                    .matchedGeometryEffect(id: "rectangle", in: namespace)
+                    .onTapGesture {
+                        withTransaction(Transaction(animation: .timingCurve(0.25, 0.7, 0.5, 1.2, duration: 0.3))) {
+                            showCountryList.toggle()
+                        }
+                    }
+                } else {
+                    HStack {
+                        Text("\(selectedCountry?.flag ?? "") \(selectedCountry?.name ?? "")")
+                            .font(.custom("Roboto-Medium", size: 30))
+                        Button {
+                            showCountryList.toggle()
+                            selectedCountry = nil
+                        } label: {
+                            Image(systemName: "multiply")
+                        }
+                        .foregroundColor(.black)
+                        .padding(5)
+                        .background(.white)
+                        .clipShape(Circle())
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                    }
+                    .frame(maxWidth: .infinity)
                 }
+                
+                
             }
 
             if (showCountryList && !countrySearched.isEmpty) {
@@ -141,6 +170,10 @@ struct LayoverDetailsForm: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 15)
                             .font(.system(size: 20))
+                            .onTapGesture {
+                                selectedCountry = country
+                                showCountryList.toggle()
+                            }
                         }
                     }
 //                    .overlay(
@@ -155,8 +188,9 @@ struct LayoverDetailsForm: View {
             }
             
             if (!showCountryList) {
+                Divider()
                 Text("I'd like to...")
-                    .font(.custom("Roboto-Bold", size: 28))
+                    .font(.custom("Roboto-Bold", size: 20))
                     .frame(maxWidth: .infinity)
                 
                 ScrollView {
@@ -211,44 +245,64 @@ struct LayoverDetailsForm: View {
                     .padding([.top, .leading, .trailing], 5)
                 }
             }
-
-
-            VStack {
-                Text("Create Plan")
-                    .font(.headline)
+            
+            if (!showCountryList) {
+                Divider()
+                VStack {
+                    Text("When's the layover")
+                        .font(.custom("Roboto-Bold", size: 20))
+                        .frame(maxWidth: .infinity)
+                    DatePicker(
+                        "Select a Date",
+                        selection: $selectedDate,
+                        displayedComponents: [.date]
+                    )
+                    .datePickerStyle(.graphical)
                     .padding()
-                    .foregroundColor(.white)
-            }
-            .frame(width: !isButtonPressed ? 300 : 280)
-            .frame(height: !isButtonPressed ? 50 : 30)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [
-                        Color(#colorLiteral(red: 0.04705882353, green: 0.04705882353, blue: 0.04705882353, alpha: 1)),
-                        Color(#colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1))
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-            )
-            .cornerRadius(15)
-            .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
-            .onTapGesture {
-                withAnimation(.linear(duration: 0.5)) {
-                    isButtonPressed.toggle()
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    withAnimation(.linear(duration: 0.2)) {
+            }
+            
+
+            if (!showCountryList) {
+                VStack {
+                    Text("Create Plan")
+                        .font(.headline)
+                        .padding()
+                        .foregroundColor(.white)
+                }
+                .frame(width: !isButtonPressed ? 300 : 280)
+                .frame(height: !isButtonPressed ? 50 : 30)
+                .background(
+                    LinearGradient(
+                        gradient: Gradient(colors: [
+                            Color(#colorLiteral(red: 0.04705882353, green: 0.04705882353, blue: 0.04705882353, alpha: 1)),
+                            Color(#colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1))
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .cornerRadius(15)
+                .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+                .onTapGesture {
+                    if (selectedCountry == nil || selectedThingsToDo.count == 0) {
+                        return
+                    }
+                    print(selectedDate)
+                    withAnimation(.linear(duration: 0.5)) {
                         isButtonPressed.toggle()
                     }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        withAnimation(.linear(duration: 0.2)) {
+                            isButtonPressed.toggle()
+                        }
+                    }
                 }
+                .opacity(selectedCountry == nil || selectedThingsToDo.count == 0 ? 0.6 : 1)
             }
-
-            
             Spacer()
         }
         .padding()
-        .frame(height: 500)
         .background(.white)
     }
 }
