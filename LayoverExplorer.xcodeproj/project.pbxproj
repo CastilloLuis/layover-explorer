@@ -14,6 +14,9 @@
 		DE635AF72A38CC490010408F /* LayoverDetailsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */; };
 		DE635AF92A38CE2F0010408F /* Countries.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AF82A38CE2F0010408F /* Countries.swift */; };
 		DE635AFB2A38E3530010408F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635AFA2A38E3530010408F /* Extensions.swift */; };
+		DE635B022A39DFF20010408F /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */; };
+		DE635B032A39DFF20010408F /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635B002A39DFF20010408F /* Roboto-Bold.ttf */; };
+		DE635B042A39DFF20010408F /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635B012A39DFF20010408F /* Roboto-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +28,10 @@
 		DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoverDetailsForm.swift; sourceTree = "<group>"; };
 		DE635AF82A38CE2F0010408F /* Countries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Countries.swift; sourceTree = "<group>"; };
 		DE635AFA2A38E3530010408F /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Regular.ttf"; sourceTree = "<group>"; };
+		DE635B002A39DFF20010408F /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		DE635B012A39DFF20010408F /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		DE635B052A39E0090010408F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +64,7 @@
 		DE635AE72A38CBC80010408F /* LayoverExplorer */ = {
 			isa = PBXGroup;
 			children = (
+				DE635B052A39E0090010408F /* Info.plist */,
 				DE635AE82A38CBC80010408F /* LayoverExplorerApp.swift */,
 				DE635AEA2A38CBC80010408F /* ContentView.swift */,
 				DE635AEC2A38CBC90010408F /* Assets.xcassets */,
@@ -64,6 +72,9 @@
 				DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */,
 				DE635AF82A38CE2F0010408F /* Countries.swift */,
 				DE635AFA2A38E3530010408F /* Extensions.swift */,
+				DE635B002A39DFF20010408F /* Roboto-Bold.ttf */,
+				DE635B012A39DFF20010408F /* Roboto-Medium.ttf */,
+				DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */,
 			);
 			path = LayoverExplorer;
 			sourceTree = "<group>";
@@ -92,6 +103,8 @@
 			dependencies = (
 			);
 			name = LayoverExplorer;
+			packageProductDependencies = (
+			);
 			productName = LayoverExplorer;
 			productReference = DE635AE52A38CBC80010408F /* LayoverExplorer.app */;
 			productType = "com.apple.product-type.application";
@@ -120,6 +133,8 @@
 				Base,
 			);
 			mainGroup = DE635ADC2A38CBC80010408F;
+			packageReferences = (
+			);
 			productRefGroup = DE635AE62A38CBC80010408F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,7 +149,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DE635B042A39DFF20010408F /* Roboto-Medium.ttf in Resources */,
+				DE635B022A39DFF20010408F /* Roboto-Regular.ttf in Resources */,
 				DE635AF02A38CBC90010408F /* Preview Assets.xcassets in Resources */,
+				DE635B032A39DFF20010408F /* Roboto-Bold.ttf in Resources */,
 				DE635AED2A38CBC90010408F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,6 +300,7 @@
 				DEVELOPMENT_TEAM = 69GR7739PH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LayoverExplorer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -311,6 +330,7 @@
 				DEVELOPMENT_TEAM = 69GR7739PH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LayoverExplorer/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

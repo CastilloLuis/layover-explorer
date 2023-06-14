@@ -7,10 +7,31 @@
 
 import SwiftUI
 
+enum FocusField: Hashable {
+  case field
+}
+
+let things_to_do = [
+    [
+        ["🍴", "eat"],
+        ["🚎", "do half day tours"]
+    ],
+    [
+        ["🗽", "go to iconic places"],
+        ["💥", "be surprise"]
+    ],
+    [
+        ["🍷", "have a drink"],
+        ["🚖", "do a quick trip"]
+    ]
+]
+
 struct LayoverDetailsForm: View {
     @State var countrySearched = ""
     @State var showCountryList = false
     @State var showBackButton = false
+    @State private var isButtonPressed = false
+    @State var selectedThingsToDo: [String] = []
 
     @Namespace private var namespace
 
@@ -43,7 +64,7 @@ struct LayoverDetailsForm: View {
                 .offset(x: showBackButton ? 0 : -100)
                 
                 Text("Where's the layover?")
-                    .font(.system(size: 32, weight: .bold))
+                    .font(.custom("Roboto-Bold", size: 28))
                     .frame(maxWidth: .infinity)
                     .opacity(0)
                 
@@ -75,10 +96,9 @@ struct LayoverDetailsForm: View {
                 .onDisappear {
                     showBackButton.toggle()
                 }
-                
             } else {
                 Text("Where's the layover?")
-                    .font(.system(size: 28, weight: .bold))
+                    .font(.custom("Roboto-Bold", size: 28))
                     .frame(maxWidth: .infinity)
                 
                 HStack {
@@ -87,7 +107,7 @@ struct LayoverDetailsForm: View {
                         .padding(.leading)
                 }
                 .padding()
-                .frame(width: 300, height: 55)
+                .frame(width: 300, height: 50)
                 .textFieldStyle(DefaultTextFieldStyle())
                 .background(.white)
                 .overlay(
@@ -120,7 +140,7 @@ struct LayoverDetailsForm: View {
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.bottom, 15)
-                            .font(.system(size: 28))
+                            .font(.system(size: 20))
                         }
                     }
 //                    .overlay(
@@ -132,8 +152,100 @@ struct LayoverDetailsForm: View {
 //                    )
                 }
                 .padding(.top, -30)
-
             }
+            
+            if (!showCountryList) {
+                Text("I'd like to...")
+                    .font(.custom("Roboto-Bold", size: 28))
+                    .frame(maxWidth: .infinity)
+                
+                ScrollView {
+                    LazyVStack(spacing: 10) {
+                        ForEach(things_to_do, id: \.self) { row in
+                            LazyHGrid(rows: [GridItem(.flexible())]) {
+                                ForEach(row, id: \.self) { plan in
+                                    HStack {
+                                        Text("\(plan[0]) \(plan[1])")
+                                            .font(.system(size: selectedThingsToDo.contains(plan[1]) ? 15 : 14))
+                                            .foregroundColor(
+                                                !selectedThingsToDo.contains(plan[1])
+                                                ? Color.black : Color.white
+                                            )
+                                            .scaleEffect(selectedThingsToDo.contains(plan[1]) ? 0.9 : 0.8)
+                                    }
+                                    .padding([.top, .bottom], 5)
+                                    .padding([.leading, .trailing], 10)
+                                    .background(
+                                        LinearGradient(
+                                            gradient: Gradient(
+                                                colors: selectedThingsToDo.contains(plan[1]) ? [
+                                                    Color(#colorLiteral(red: 0.04705882353, green: 0.04705882353, blue: 0.04705882353, alpha: 1)),
+                                                    Color(#colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1))
+                                                ] :  [
+                                                    Color.white,
+                                                    Color(#colorLiteral(red: 0.9, green: 0.9, blue: 0.9, alpha: 1))
+                                                ]
+                                            ),
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                                    .cornerRadius(10)
+                                    .shadow(color: Color.black.opacity(0.2), radius: 3.5, x: 0, y: 2)
+                                    .scaleEffect(0.98)
+                                    .onTapGesture {
+                                        withAnimation(.interpolatingSpring(stiffness: 200, damping: 10)) {
+                                            if selectedThingsToDo.contains(plan[1]) {
+                                                if let idx = selectedThingsToDo.firstIndex(where: {$0 == plan[1]}) {
+                                                    selectedThingsToDo.remove(at: idx)
+                                                }
+                                            } else {
+                                                selectedThingsToDo.append(plan[1])
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .padding([.top, .leading, .trailing], 5)
+                }
+            }
+
+
+            VStack {
+                Text("Create Plan")
+                    .font(.headline)
+                    .padding()
+                    .foregroundColor(.white)
+            }
+            .frame(width: !isButtonPressed ? 300 : 280)
+            .frame(height: !isButtonPressed ? 50 : 30)
+            .background(
+                LinearGradient(
+                    gradient: Gradient(colors: [
+                        Color(#colorLiteral(red: 0.04705882353, green: 0.04705882353, blue: 0.04705882353, alpha: 1)),
+                        Color(#colorLiteral(red: 0.09803921569, green: 0.09803921569, blue: 0.09803921569, alpha: 1))
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+            .cornerRadius(15)
+            .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
+            .onTapGesture {
+                withAnimation(.linear(duration: 0.5)) {
+                    isButtonPressed.toggle()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    withAnimation(.linear(duration: 0.2)) {
+                        isButtonPressed.toggle()
+                    }
+                }
+            }
+
+            
+            Spacer()
         }
         .padding()
         .frame(height: 500)
