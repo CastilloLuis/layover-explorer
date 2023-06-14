@@ -12,6 +12,7 @@ struct LayoverExplorerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(Network())
         }
     }
 }

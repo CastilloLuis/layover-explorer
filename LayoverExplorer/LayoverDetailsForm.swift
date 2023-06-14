@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 enum FocusField: Hashable {
   case field
@@ -27,10 +28,13 @@ let things_to_do = [
 ]
 
 struct LayoverDetailsForm: View {
+    @EnvironmentObject var network: Network
+    
     @State var countrySearched = ""
     @State var showCountryList = false
     @State var showBackButton = false
     @State private var isButtonPressed = false
+    @State private var isShowingSheet = false
     
     @State private var selectedDate = Date()
     @State var selectedCountry: Country? = nil
@@ -50,7 +54,18 @@ struct LayoverDetailsForm: View {
             country.name.contains(countrySearched)
         }
     }
+    
+    func tryApi() async {
+        await network.helloWorldFlask()
+    }
 
+    func openMaps(_ latitude: Double, _ longitude: Double) {
+        let urlString = "http://maps.apple.com/?ll=\(latitude),\(longitude)"
+        if let url = URL(string: urlString) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
     
     var body: some View {
         VStack {
@@ -105,6 +120,7 @@ struct LayoverDetailsForm: View {
                 .onDisappear {
                     showBackButton.toggle()
                 }
+                Spacer()
             } else {
                 Text("Where's the layover?")
                     .font(.custom("Roboto-Bold", size: 20))
@@ -115,6 +131,7 @@ struct LayoverDetailsForm: View {
                         Image(systemName: "magnifyingglass")
                         TextField("Search country", text: $countrySearched)
                             .padding(.leading)
+                            .disabled(true)
                     }
                     .padding()
                     .frame(width: 300, height: 50)
@@ -140,8 +157,10 @@ struct LayoverDetailsForm: View {
                         Text("\(selectedCountry?.flag ?? "") \(selectedCountry?.name ?? "")")
                             .font(.custom("Roboto-Medium", size: 30))
                         Button {
-                            showCountryList.toggle()
                             selectedCountry = nil
+                            withAnimation {
+                                countrySearched = ""
+                            }
                         } label: {
                             Image(systemName: "multiply")
                         }
@@ -152,6 +171,7 @@ struct LayoverDetailsForm: View {
                         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                     }
                     .frame(maxWidth: .infinity)
+                    .frame(height: 65)
                 }
                 
                 
@@ -176,19 +196,15 @@ struct LayoverDetailsForm: View {
                             }
                         }
                     }
-//                    .overlay(
-//                        GeometryReader { geo in
-//                            Color.clear.onAppear {
-//                                contentSize = geo.size
-//                            }
-//                        }
-//                    )
                 }
                 .padding(.top, -30)
             }
             
             if (!showCountryList) {
-                Divider()
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
                 Text("I'd like to...")
                     .font(.custom("Roboto-Bold", size: 20))
                     .frame(maxWidth: .infinity)
@@ -205,7 +221,7 @@ struct LayoverDetailsForm: View {
                                                 !selectedThingsToDo.contains(plan[1])
                                                 ? Color.black : Color.white
                                             )
-                                            .scaleEffect(selectedThingsToDo.contains(plan[1]) ? 0.9 : 0.8)
+                                            .scaleEffect(selectedThingsToDo.contains(plan[1]) ? 1 : 0.9)
                                     }
                                     .padding([.top, .bottom], 5)
                                     .padding([.leading, .trailing], 10)
@@ -226,7 +242,6 @@ struct LayoverDetailsForm: View {
                                     )
                                     .cornerRadius(10)
                                     .shadow(color: Color.black.opacity(0.2), radius: 3.5, x: 0, y: 2)
-                                    .scaleEffect(0.98)
                                     .onTapGesture {
                                         withAnimation(.interpolatingSpring(stiffness: 200, damping: 10)) {
                                             if selectedThingsToDo.contains(plan[1]) {
@@ -238,29 +253,35 @@ struct LayoverDetailsForm: View {
                                             }
                                         }
                                     }
+                                    .scaleEffect(0.98)
                                 }
                             }
                         }
                     }
-                    .padding([.top, .leading, .trailing], 5)
+                    .padding([.top, .bottom], 5)
                 }
+                .frame(height: 120)
+                Spacer()
+                Spacer()
+                Spacer()
+                Spacer()
             }
             
             if (!showCountryList) {
-                Divider()
                 VStack {
                     Text("When's the layover")
                         .font(.custom("Roboto-Bold", size: 20))
-                        .frame(maxWidth: .infinity)
                     DatePicker(
-                        "Select a Date",
+                        "",
                         selection: $selectedDate,
                         displayedComponents: [.date]
                     )
-                    .datePickerStyle(.graphical)
-                    .padding()
+                    .labelsHidden()
+                    .datePickerStyle(.wheel)
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             }
+            
             
 
             if (!showCountryList) {
@@ -285,6 +306,7 @@ struct LayoverDetailsForm: View {
                 .cornerRadius(15)
                 .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
                 .onTapGesture {
+                    isShowingSheet.toggle()
                     if (selectedCountry == nil || selectedThingsToDo.count == 0) {
                         return
                     }
@@ -300,15 +322,67 @@ struct LayoverDetailsForm: View {
                 }
                 .opacity(selectedCountry == nil || selectedThingsToDo.count == 0 ? 0.6 : 1)
             }
-            Spacer()
         }
         .padding()
         .background(.white)
+        .sheet(isPresented: $isShowingSheet) {
+            VStack {
+                Text("Custom plan")
+                    .font(.headline)
+                ScrollView {
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Mercado San Miguel")
+                                .font(.headline)
+                            Text("The Archeological Museum of Madrid holds an extensive collection of pre-historical and classical antiquities. The museum contains artifacts from throughout the Iberian Peninsula.")
+                                .font(.custom("Roboto-Regular", size: 12)).lineLimit(3)
+                                .truncationMode(.tail)
+                            Text("https://website.com")
+                                .font(.custom("Roboto-Regular", size: 10))
+                            Spacer()
+                            Text("🚕 30 minutes")
+                                .font(.custom("Roboto-Regular", size: 15))
+                            Text("🚝 30 minutes")
+                                .font(.custom("Roboto-Regular", size: 15))
+                        }
+                        VStack {
+                            MapPreview(coordinate:  CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060))
+                        }
+                        .frame(width: 120, height: 100)
+                        .cornerRadius(10)
+                        .onTapGesture {
+                            openMaps(40.7128, -74.0060)
+                        }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(
+                        LinearGradient(
+                            gradient: Gradient(colors: [Color(hex: "FDFDFD"), Color(hex: "F4F4F4")]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .cornerRadius(15)
+                    .padding()
+                    .shadow(color: Color.gray.opacity(0.25), radius: 10, x: 0, y: 2)
+
+
+                }
+                .frame(maxWidth: .infinity)
+                Spacer()
+            }
+            .padding()
+        }
+        .task {
+            await tryApi()
+        }
     }
 }
 
 struct LayoverDetailsForm_Previews: PreviewProvider {
     static var previews: some View {
         LayoverDetailsForm()
+            .environmentObject(Network())
     }
 }

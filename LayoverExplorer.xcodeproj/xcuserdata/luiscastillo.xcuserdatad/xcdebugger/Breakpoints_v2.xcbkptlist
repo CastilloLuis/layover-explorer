@@ -8,7 +8,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "C0D236CC-CA32-45E2-84E2-197D8F8EB875"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "LayoverExplorer/Countries.swift"
@@ -18,6 +18,38 @@
             endingLineNumber = "10"
             landmarkName = "unknown"
             landmarkType = "0">
+            <Locations>
+               <Location
+                  uuid = "C0D236CC-CA32-45E2-84E2-197D8F8EB875 - d29795065c4dd778"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "one-time initialization function for countries"
+                  moduleName = "LayoverExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luiscastillo/Documents/ios/LayoverExplorer/LayoverExplorer/Countries.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "C0D236CC-CA32-45E2-84E2-197D8F8EB875 - bb5bc3474524398c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LayoverExplorer.countries.unsafeMutableAddressor : Swift.String"
+                  moduleName = "LayoverExplorer"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/luiscastillo/Documents/ios/LayoverExplorer/LayoverExplorer/Countries.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "10"
+                  endingLineNumber = "10"
+                  offsetFromSymbolStart = "16">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

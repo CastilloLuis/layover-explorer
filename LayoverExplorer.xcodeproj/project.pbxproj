@@ -17,6 +17,8 @@
 		DE635B022A39DFF20010408F /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */; };
 		DE635B032A39DFF20010408F /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635B002A39DFF20010408F /* Roboto-Bold.ttf */; };
 		DE635B042A39DFF20010408F /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE635B012A39DFF20010408F /* Roboto-Medium.ttf */; };
+		DE635B072A39FA650010408F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635B062A39FA650010408F /* Network.swift */; };
+		DE635B092A3A08940010408F /* MapPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635B082A3A08940010408F /* MapPreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		DE635B002A39DFF20010408F /* Roboto-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Bold.ttf"; sourceTree = "<group>"; };
 		DE635B012A39DFF20010408F /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
 		DE635B052A39E0090010408F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		DE635B062A39FA650010408F /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		DE635B082A3A08940010408F /* MapPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapPreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +71,7 @@
 				DE635B052A39E0090010408F /* Info.plist */,
 				DE635AE82A38CBC80010408F /* LayoverExplorerApp.swift */,
 				DE635AEA2A38CBC80010408F /* ContentView.swift */,
+				DE635B062A39FA650010408F /* Network.swift */,
 				DE635AEC2A38CBC90010408F /* Assets.xcassets */,
 				DE635AEE2A38CBC90010408F /* Preview Content */,
 				DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */,
@@ -75,6 +80,7 @@
 				DE635B002A39DFF20010408F /* Roboto-Bold.ttf */,
 				DE635B012A39DFF20010408F /* Roboto-Medium.ttf */,
 				DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */,
+				DE635B082A3A08940010408F /* MapPreview.swift */,
 			);
 			path = LayoverExplorer;
 			sourceTree = "<group>";
@@ -166,6 +172,8 @@
 			files = (
 				DE635AFB2A38E3530010408F /* Extensions.swift in Sources */,
 				DE635AF72A38CC490010408F /* LayoverDetailsForm.swift in Sources */,
+				DE635B092A3A08940010408F /* MapPreview.swift in Sources */,
+				DE635B072A39FA650010408F /* Network.swift in Sources */,
 				DE635AEB2A38CBC80010408F /* ContentView.swift in Sources */,
 				DE635AF92A38CE2F0010408F /* Countries.swift in Sources */,
 				DE635AE92A38CBC80010408F /* LayoverExplorerApp.swift in Sources */,
