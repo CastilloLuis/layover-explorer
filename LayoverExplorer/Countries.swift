@@ -1488,8 +1488,24 @@ let countries: String = """
 ]
 """
 
+//{
+//    "cities": [
+//        "Herat",
+//        "Kabul",
+//        "Kandahar",
+//        "Molah",
+//        "Rana",
+//        "Shar",
+//        "Sharif",
+//        "Wazir Akbar Khan"
+//    ],
+//    "country": "Afghanistan",
+//    "iso2": "AF",
+//    "iso3": "AFG"
+//},
+
 struct Country: Codable, Identifiable {
-    let id = UUID()
+    var id = UUID()
     let name: String
     let flag: String
     let code: String

@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 class Network: ObservableObject {
-    let API_URL = "http://127.0.0.1:5000"
+    let API_URL = "https://6e4f-37-35-134-76.ngrok-free.app"
     
     func getUrlRequestObject(_ pathname: String) -> URLRequest {
         guard let url = URL(string: API_URL + pathname) else { fatalError("Missing URL") }
@@ -35,19 +35,19 @@ class Network: ObservableObject {
         return _data
     }
     
-    func getAISuggestions() async -> [SuggestedPlace] {
-        let parameters: [String: String] = [
-            "place": "madrid",
-            "thingsToDo": String(["1", "2", "3"]),
-            "date": "2023-06-29 13:04:00 +0000"
+    func getAISuggestions(_ place: String, _ thingsToDo: [String], _ date: String, _ hours: String) async -> [SuggestedPlace] {
+        let parameters: [String: Any?] = [
+            "place": place,
+            "thingsToDo": thingsToDo,
+            "date": date,
+            "hours": hours
         ]
-        
         var suggestions: [SuggestedPlace] = []
-        var urlRequest = getUrlRequestObject("/get-smart-trip")
-        urlRequest.httpMethod = "POST"
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
         do {
+            var urlRequest = getUrlRequestObject("/get-smart-trip")
+            urlRequest.httpMethod = "POST"
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
             let apiResponse = try? await callApi(urlRequest, urlRequest.httpMethod!, JSONSerialization.data(withJSONObject: parameters))
 
             guard let _apiResponse = apiResponse else {
@@ -64,19 +64,5 @@ class Network: ObservableObject {
         
         return suggestions
     }
-    
-    func helloWorldFlask() async -> String {
-        let urlRequest = getUrlRequestObject("/")
-        let apiResponse = try? await callApi(urlRequest, "GET", nil)
-
-        guard let apiResponse = apiResponse else {
-            return "Error"
-        }
-        
-        print(apiResponse)
-        
-        return "Lol"
-    }
-
     
 }

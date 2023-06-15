@@ -41,7 +41,9 @@ struct LayoverDetailsForm: View {
     @State private var showEmojis = false
     
     @State private var suggestedPlaces: [SuggestedPlace] = []
-    @State private var selectedDate = Date()
+    
+    @State var layoverHours = "0"
+    @State var selectedDate = Date()
     @State var selectedCountry: Country? = nil
     @State var selectedThingsToDo: [String] = []
 
@@ -61,8 +63,13 @@ struct LayoverDetailsForm: View {
     }
     
     func getSuggestedPlans() async {
-        let suggestions = await network.getAISuggestions()
+        let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let selectedDateStr = dateFormatter.string(from: selectedDate)
+        
+        let suggestions = await network.getAISuggestions(selectedCountry!.name, selectedThingsToDo, selectedDateStr, layoverHours)
         suggestedPlaces = suggestions
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
             loading = false
             showSuggestedPlaces = true
@@ -70,9 +77,9 @@ struct LayoverDetailsForm: View {
     }
     
     func generatePlan() async {
-        if (selectedCountry == nil || selectedThingsToDo.count == 0 || loading || showEmojis) {
-            return
-        }
+//        if (selectedCountry == nil || selectedThingsToDo.count == 0 || loading || showEmojis) {
+//            return
+//        }
         withAnimation(.linear(duration: 0.5)) {
             isButtonPressed.toggle()
             showEmojis.toggle()
@@ -310,6 +317,30 @@ struct LayoverDetailsForm: View {
                         .datePickerStyle(.wheel)
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                }
+                
+                if (!showCountryList) {
+                    VStack {
+                        Text("How many hours?")
+                            .font(.custom("Roboto-Bold", size: 20))
+                        TextField("", text: $layoverHours)
+                            .keyboardType(.numberPad)
+                            .padding()
+                            .frame(width: 100, height: 50)
+                            .textFieldStyle(DefaultTextFieldStyle())
+                            .font(.custom("Roboto-Regular", size: 40))
+                            .multilineTextAlignment(.center)
+                            .background(.white)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color(hex: "#B0B0B0"), lineWidth: 2)
+                            )
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: 8
+                                )
+                            )
+                    }
                 }
 
                 if (!showCountryList) {
