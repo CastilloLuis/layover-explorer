@@ -6,7 +6,8 @@
 import Foundation
 
 // MARK: - PlaceSuggested
-struct PlaceSuggested: Codable {
+struct SuggestedPlace: Codable, Identifiable {
+    let id = UUID()
     let name, description: String
     let website: String
     let timeCar, timeSubway: String

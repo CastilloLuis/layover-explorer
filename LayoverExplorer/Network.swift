@@ -35,14 +35,14 @@ class Network: ObservableObject {
         return _data
     }
     
-    func getAISuggestions() async -> [PlaceSuggested] {
+    func getAISuggestions() async -> [SuggestedPlace] {
         let parameters: [String: String] = [
             "place": "madrid",
             "thingsToDo": String(["1", "2", "3"]),
             "date": "2023-06-29 13:04:00 +0000"
         ]
         
-        var suggestions: [PlaceSuggested] = []
+        var suggestions: [SuggestedPlace] = []
         var urlRequest = getUrlRequestObject("/get-smart-trip")
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -54,7 +54,7 @@ class Network: ObservableObject {
                 return []
             }
 
-            let decodedSuggestions = try JSONDecoder().decode([PlaceSuggested].self, from: _apiResponse)
+            let decodedSuggestions = try JSONDecoder().decode([SuggestedPlace].self, from: _apiResponse)
             
             suggestions = decodedSuggestions
         } catch {

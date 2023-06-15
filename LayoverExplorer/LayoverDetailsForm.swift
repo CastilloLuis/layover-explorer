@@ -37,9 +37,10 @@ struct LayoverDetailsForm: View {
     @State var showBackButton = false
     @State var loading = false
     @State private var isButtonPressed = false
-    @State private var isShowingSheet = false
+    @State private var showSuggestedPlaces = false
     @State private var showEmojis = false
     
+    @State private var suggestedPlaces: [SuggestedPlace] = []
     @State private var selectedDate = Date()
     @State var selectedCountry: Country? = nil
     @State var selectedThingsToDo: [String] = []
@@ -59,17 +60,36 @@ struct LayoverDetailsForm: View {
         }
     }
     
-    func talkToAI() async {
-        await network.getAISuggestions()
-    }
-
-    func openMaps(_ latitude: Double, _ longitude: Double) {
-        let urlString = "http://maps.apple.com/?ll=\(latitude),\(longitude)"
-        if let url = URL(string: urlString) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    func getSuggestedPlans() async {
+        let suggestions = await network.getAISuggestions()
+        suggestedPlaces = suggestions
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+            loading = false
+            showSuggestedPlaces = true
         }
     }
     
+    func generatePlan() async {
+        if (selectedCountry == nil || selectedThingsToDo.count == 0 || loading || showEmojis) {
+            return
+        }
+        withAnimation(.linear(duration: 0.5)) {
+            isButtonPressed.toggle()
+            showEmojis.toggle()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            withAnimation(.linear(duration: 0.2)) {
+                isButtonPressed.toggle()
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation(.linear(duration: 0.2)) {
+                showEmojis = false
+                loading = true
+                Task { await getSuggestedPlans() }
+            }
+        }
+    }
     
     var body: some View {
         VStack {
@@ -316,26 +336,8 @@ struct LayoverDetailsForm: View {
                             .cornerRadius(15)
                             .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 5)
                             .onTapGesture {
-                                if (selectedCountry == nil || selectedThingsToDo.count == 0 || loading || showEmojis) {
-                                    return
-                                }
-                                withAnimation(.linear(duration: 0.5)) {
-                                    isButtonPressed.toggle()
-                                    showEmojis.toggle()
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    withAnimation(.linear(duration: 0.2)) {
-                                        isButtonPressed.toggle()
-                                    }
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                    withAnimation(.linear(duration: 0.2)) {
-                                        showEmojis.toggle()
-                                        loading.toggle()
-                                        Task {
-                                            await talkToAI()
-                                        }
-                                    }
+                                Task {
+                                    await generatePlan()
                                 }
                             }
                             .opacity(selectedCountry == nil || selectedThingsToDo.count == 0 ? 0.6 : 1)
@@ -357,57 +359,8 @@ struct LayoverDetailsForm: View {
         }
         .padding()
         .background(.white)
-        .sheet(isPresented: $isShowingSheet) {
-            VStack {
-                Text("Custom plan")
-                    .font(.headline)
-                ScrollView {
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Mercado San Miguel")
-                                .font(.headline)
-                            Text("The Archeological Museum of Madrid holds an extensive collection of pre-historical and classical antiquities. The museum contains artifacts from throughout the Iberian Peninsula.")
-                                .font(.custom("Roboto-Regular", size: 12)).lineLimit(3)
-                                .truncationMode(.tail)
-                            Text("https://website.com")
-                                .font(.custom("Roboto-Regular", size: 10))
-                            Spacer()
-                            Text("🚕 30 minutes")
-                                .font(.custom("Roboto-Regular", size: 15))
-                            Text("🚝 30 minutes")
-                                .font(.custom("Roboto-Regular", size: 15))
-                        }
-                        VStack {
-                            MapPreview(coordinate:  CLLocationCoordinate2D(latitude: 40.7128, longitude: -74.0060))
-                        }
-                        .frame(width: 120, height: 100)
-                        .cornerRadius(10)
-                        .onTapGesture {
-                            openMaps(40.7128, -74.0060)
-                        }
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(
-                        LinearGradient(
-                            gradient: Gradient(colors: [Color(hex: "FDFDFD"), Color(hex: "F4F4F4")]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                    )
-                    .cornerRadius(15)
-                    .padding()
-                    .shadow(color: Color.gray.opacity(0.25), radius: 10, x: 0, y: 2)
-
-
-                }
-                .frame(maxWidth: .infinity)
-                Spacer()
-            }
-            .padding()
-        }
-        .task {
-            await talkToAI()
+        .sheet(isPresented: $showSuggestedPlaces) {
+            Suggestions(suggestions: $suggestedPlaces)
         }
     }
 }
