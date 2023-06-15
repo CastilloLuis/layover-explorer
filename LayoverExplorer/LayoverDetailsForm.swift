@@ -59,14 +59,8 @@ struct LayoverDetailsForm: View {
         }
     }
     
-    func tryApi() async {
-        await network.helloWorldFlask()
-        loading = false
-        isShowingSheet = true
-    }
-    
     func talkToAI() async {
-        await tryApi()
+        await network.getAISuggestions()
     }
 
     func openMaps(_ latitude: Double, _ longitude: Double) {
@@ -411,6 +405,9 @@ struct LayoverDetailsForm: View {
                 Spacer()
             }
             .padding()
+        }
+        .task {
+            await talkToAI()
         }
     }
 }
