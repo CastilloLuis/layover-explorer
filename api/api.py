@@ -9,10 +9,6 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
-def hello_world():
-    return os.environ.get('OPEAN_AI_API_KEY')
-
 @app.route("/get-countries", methods=["GET"])
 def get_cities():
     response = requests.get("https://countriesnow.space/api/v0.1/countries")
