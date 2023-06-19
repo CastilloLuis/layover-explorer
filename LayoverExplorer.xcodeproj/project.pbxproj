@@ -24,6 +24,10 @@
 		DE635B0F2A3A46CD0010408F /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635B0E2A3A46CD0010408F /* Place.swift */; };
 		DE635B112A3B40090010408F /* Suggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE635B102A3B40090010408F /* Suggestions.swift */; };
 		DEF4620D2A3BC93E0083CCB9 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF4620C2A3BC93E0083CCB9 /* Utils.swift */; };
+		DEF462102A407F3C0083CCB9 /* LayoverDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF4620F2A407F3C0083CCB9 /* LayoverDestination.swift */; };
+		DEF462122A407FCA0083CCB9 /* ThingsToDo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF462112A407FCA0083CCB9 /* ThingsToDo.swift */; };
+		DEF462142A407FFE0083CCB9 /* LayoverTiming.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF462132A407FFE0083CCB9 /* LayoverTiming.swift */; };
+		DEF462162A408B110083CCB9 /* constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEF462152A408B110083CCB9 /* constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +50,10 @@
 		DE635B0E2A3A46CD0010408F /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
 		DE635B102A3B40090010408F /* Suggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Suggestions.swift; sourceTree = "<group>"; };
 		DEF4620C2A3BC93E0083CCB9 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		DEF4620F2A407F3C0083CCB9 /* LayoverDestination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoverDestination.swift; sourceTree = "<group>"; };
+		DEF462112A407FCA0083CCB9 /* ThingsToDo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThingsToDo.swift; sourceTree = "<group>"; };
+		DEF462132A407FFE0083CCB9 /* LayoverTiming.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoverTiming.swift; sourceTree = "<group>"; };
+		DEF462152A408B110083CCB9 /* constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +70,6 @@
 		DE635ADC2A38CBC80010408F = {
 			isa = PBXGroup;
 			children = (
-				DEF4620C2A3BC93E0083CCB9 /* Utils.swift */,
 				DE635AE72A38CBC80010408F /* LayoverExplorer */,
 				DE635AE62A38CBC80010408F /* Products */,
 			);
@@ -79,23 +86,17 @@
 		DE635AE72A38CBC80010408F /* LayoverExplorer */ = {
 			isa = PBXGroup;
 			children = (
+				DEF4621B2A4090C70083CCB9 /* Fonts */,
+				DEF4621A2A4090870083CCB9 /* Components */,
+				DEF462192A40906F0083CCB9 /* Utils */,
+				DEF462182A4090480083CCB9 /* Views */,
+				DEF462172A4090170083CCB9 /* Models */,
 				DE635B052A39E0090010408F /* Info.plist */,
 				DE635AE82A38CBC80010408F /* LayoverExplorerApp.swift */,
-				DE635B0A2A3A219F0010408F /* EmojiExplosion.swift */,
 				DE635AEA2A38CBC80010408F /* ContentView.swift */,
 				DE635B062A39FA650010408F /* Network.swift */,
 				DE635AEC2A38CBC90010408F /* Assets.xcassets */,
 				DE635AEE2A38CBC90010408F /* Preview Content */,
-				DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */,
-				DE635AF82A38CE2F0010408F /* Countries.swift */,
-				DE635AFA2A38E3530010408F /* Extensions.swift */,
-				DE635B002A39DFF20010408F /* Roboto-Bold.ttf */,
-				DE635B012A39DFF20010408F /* Roboto-Medium.ttf */,
-				DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */,
-				DE635B082A3A08940010408F /* MapPreview.swift */,
-				DE635B0C2A3A3C230010408F /* Loader.swift */,
-				DE635B0E2A3A46CD0010408F /* Place.swift */,
-				DE635B102A3B40090010408F /* Suggestions.swift */,
 			);
 			path = LayoverExplorer;
 			sourceTree = "<group>";
@@ -106,6 +107,65 @@
 				DE635AEF2A38CBC90010408F /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DEF4620E2A407F230083CCB9 /* Stepper */ = {
+			isa = PBXGroup;
+			children = (
+				DEF4620F2A407F3C0083CCB9 /* LayoverDestination.swift */,
+				DEF462112A407FCA0083CCB9 /* ThingsToDo.swift */,
+				DEF462132A407FFE0083CCB9 /* LayoverTiming.swift */,
+			);
+			path = Stepper;
+			sourceTree = "<group>";
+		};
+		DEF462172A4090170083CCB9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DE635B0E2A3A46CD0010408F /* Place.swift */,
+				DE635AF82A38CE2F0010408F /* Countries.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DEF462182A4090480083CCB9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DEF4620E2A407F230083CCB9 /* Stepper */,
+				DE635AF62A38CC490010408F /* LayoverDetailsForm.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DEF462192A40906F0083CCB9 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DE635AFA2A38E3530010408F /* Extensions.swift */,
+				DEF4620C2A3BC93E0083CCB9 /* Utils.swift */,
+				DEF462152A408B110083CCB9 /* constants.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DEF4621A2A4090870083CCB9 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				DE635B0C2A3A3C230010408F /* Loader.swift */,
+				DE635B082A3A08940010408F /* MapPreview.swift */,
+				DE635B0A2A3A219F0010408F /* EmojiExplosion.swift */,
+				DE635B102A3B40090010408F /* Suggestions.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		DEF4621B2A4090C70083CCB9 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				DE635B002A39DFF20010408F /* Roboto-Bold.ttf */,
+				DE635B012A39DFF20010408F /* Roboto-Medium.ttf */,
+				DE635AFF2A39DFF20010408F /* Roboto-Regular.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,8 +247,12 @@
 			files = (
 				DE635AFB2A38E3530010408F /* Extensions.swift in Sources */,
 				DE635AF72A38CC490010408F /* LayoverDetailsForm.swift in Sources */,
+				DEF462142A407FFE0083CCB9 /* LayoverTiming.swift in Sources */,
 				DE635B092A3A08940010408F /* MapPreview.swift in Sources */,
+				DEF462102A407F3C0083CCB9 /* LayoverDestination.swift in Sources */,
+				DEF462122A407FCA0083CCB9 /* ThingsToDo.swift in Sources */,
 				DE635B072A39FA650010408F /* Network.swift in Sources */,
+				DEF462162A408B110083CCB9 /* constants.swift in Sources */,
 				DE635B0B2A3A219F0010408F /* EmojiExplosion.swift in Sources */,
 				DE635AEB2A38CBC80010408F /* ContentView.swift in Sources */,
 				DE635AF92A38CE2F0010408F /* Countries.swift in Sources */,

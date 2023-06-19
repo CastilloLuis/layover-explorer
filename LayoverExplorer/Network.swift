@@ -9,7 +9,7 @@ import SwiftUI
 import Foundation
 
 class Network: ObservableObject {
-    let API_URL = "http://127.0.0.1:5000"
+    let API_URL = "https://0cc0-37-35-134-76.ngrok-free.app"
     
     func getUrlRequestObject(_ pathname: String) -> URLRequest {
         guard let url = URL(string: API_URL + pathname) else { fatalError("Missing URL") }
@@ -35,11 +35,10 @@ class Network: ObservableObject {
         return _data
     }
     
-    func getAISuggestions(_ place: String, _ thingsToDo: [String], _ date: String, _ hours: String) async -> [SuggestedPlace] {
+    func getAISuggestions(_ place: String, _ thingsToDo: [String], _ hours: String) async -> [SuggestedPlace] {
         let parameters: [String: Any?] = [
             "place": place,
             "thingsToDo": thingsToDo,
-            "date": date,
             "hours": hours
         ]
         var suggestions: [SuggestedPlace] = []
@@ -62,6 +61,7 @@ class Network: ObservableObject {
             print(error)
         }
         
+        print(suggestions)
         return suggestions
     }
     
@@ -84,7 +84,7 @@ class Network: ObservableObject {
             print("Error while getting countries...")
             print(error)
         }
-        return [countries[0], countries[1], countries[2], countries[3], countries[4], countries[5], countries[6]]
+        return countries
     }
     
 }

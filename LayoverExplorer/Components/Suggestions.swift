@@ -20,7 +20,7 @@ struct Suggestions: View {
 
     var body: some View {
         VStack {
-            Text("Custom plan!")
+            Text("AI Suggestions")
                 .font(.headline)
             ScrollView {
                 ForEach(suggestions, id: \.id) { place in

@@ -1504,7 +1504,7 @@ let countries: String = """
 //    "iso3": "AFG"
 //},
 
-struct Country: Codable, Identifiable {
+struct Country: Codable, Identifiable, Hashable {
     let id = UUID()
     let cities: [String]
     let name: String
