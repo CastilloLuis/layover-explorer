@@ -41,10 +41,11 @@ struct LayoverDetailsForm: View {
     @State private var showEmojis = false
     
     @State private var suggestedPlaces: [SuggestedPlace] = []
+    @State private var countries: [Country] = []
     
     @State var layoverHours = "0"
     @State var selectedDate = Date()
-    @State var selectedCountry: Country? = nil
+    @State var selectedLocation: SelectedSearchCity? = nil
     @State var selectedThingsToDo: [String] = []
 
     @Namespace private var namespace
@@ -56,9 +57,11 @@ struct LayoverDetailsForm: View {
     }
     
     func filteredCountries() -> [Country] {
-        if (countrySearched.isEmpty)  { return getCountries() }
-        return getCountries().filter { country in
-            country.name.contains(countrySearched)
+        if (countrySearched.isEmpty)  { return countries }
+        return countries.filter { country in
+            country.cities.contains { elem in
+                elem.contains(countrySearched)
+            }
         }
     }
     
@@ -67,7 +70,7 @@ struct LayoverDetailsForm: View {
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let selectedDateStr = dateFormatter.string(from: selectedDate)
         
-        let suggestions = await network.getAISuggestions(selectedCountry!.name, selectedThingsToDo, selectedDateStr, layoverHours)
+        let suggestions = await network.getAISuggestions("\(selectedLocation!.city), \(selectedLocation!.name)", selectedThingsToDo, selectedDateStr, layoverHours)
         suggestedPlaces = suggestions
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
@@ -77,9 +80,9 @@ struct LayoverDetailsForm: View {
     }
     
     func generatePlan() async {
-//        if (selectedCountry == nil || selectedThingsToDo.count == 0 || loading || showEmojis) {
-//            return
-//        }
+        if (selectedLocation == nil || selectedThingsToDo.count == 0 || layoverHours == "0" || loading || showEmojis) {
+            return
+        }
         withAnimation(.linear(duration: 0.5)) {
             isButtonPressed.toggle()
             showEmojis.toggle()
@@ -163,7 +166,7 @@ struct LayoverDetailsForm: View {
                         .font(.custom("Roboto-Bold", size: 20))
                         .frame(maxWidth: .infinity)
                     
-                    if (selectedCountry == nil) {
+                    if (selectedLocation == nil) {
                         HStack {
                             Image(systemName: "magnifyingglass")
                             TextField("Search country", text: $countrySearched)
@@ -191,10 +194,10 @@ struct LayoverDetailsForm: View {
                         }
                     } else {
                         HStack {
-                            Text("\(selectedCountry?.flag ?? "") \(selectedCountry?.name ?? "")")
-                                .font(.custom("Roboto-Medium", size: 30))
+                            Text("\(selectedLocation?.flag ?? "") \(selectedLocation?.city ?? ""), \(selectedLocation?.name ?? "")")
+                                .font(.custom("Roboto-Medium", size: 28))
                             Button {
-                                selectedCountry = nil
+                                selectedLocation = nil
                                 withAnimation {
                                     countrySearched = ""
                                 }
@@ -214,23 +217,39 @@ struct LayoverDetailsForm: View {
                     
                 }
 
-                if (showCountryList && !countrySearched.isEmpty) {
+                if (showCountryList) {
                     ScrollView {
                         LazyVStack {
                             ForEach(
                                 filteredCountries()
                             ) { country in
-                                HStack {
-                                    Text(country.flag)
-                                    Text(country.name)
+                                VStack(alignment: .leading) {
+                                    HStack {
+                                        Text(createEmojiFlag(isoCode: country.iso2) ?? "🏳️")
+                                        Text(country.name)
+                                    }
+                                    .font(.custom("Roboto-Medium", size: 30))
+                                    VStack {
+                                        ForEach (country.cities, id: \.self) { city in
+                                            VStack {
+                                                Text(city)
+                                                    .font(.custom("Roboto-Regular", size: 25))
+                                            }
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .padding([.top, .bottom], 10)
+                                            .onTapGesture {
+                                                selectedLocation = SelectedSearchCity(
+                                                    name: country.name,
+                                                    flag: "\(createEmojiFlag(isoCode: country.iso2) ?? "🏳️")",
+                                                    city: city
+                                                )
+                                                showCountryList.toggle()
+                                            }
+                                        }
+                                    }
+                                    Divider()
                                 }
-                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.bottom, 15)
-                                .font(.system(size: 20))
-                                .onTapGesture {
-                                    selectedCountry = country
-                                    showCountryList.toggle()
-                                }
                             }
                         }
                     }
@@ -371,7 +390,7 @@ struct LayoverDetailsForm: View {
                                     await generatePlan()
                                 }
                             }
-                            .opacity(selectedCountry == nil || selectedThingsToDo.count == 0 ? 0.6 : 1)
+                            .opacity((selectedLocation == nil || selectedThingsToDo.count == 0 || layoverHours == "0") ? 0.6 : 1)
                             
                             if showEmojis {
                                 ZStack {
@@ -392,6 +411,10 @@ struct LayoverDetailsForm: View {
         .background(.white)
         .sheet(isPresented: $showSuggestedPlaces) {
             Suggestions(suggestions: $suggestedPlaces)
+        }
+        .task {
+            countries = await network.getCountries()
+            print(countries)
         }
     }
 }

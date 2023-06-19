@@ -1505,21 +1505,22 @@ let countries: String = """
 //},
 
 struct Country: Codable, Identifiable {
-    var id = UUID()
+    let id = UUID()
+    let cities: [String]
     let name: String
-    let flag: String
-    let code: String
-    let dial_code: String
-}
-
-func getCountries() -> [Country] {
-    let jsonData = Data(countries.utf8)
+    let flag = "🇪🇸"
+    let iso2: String
+    let iso3: String
     
-    do {
-        let formattedCountries = try? JSONDecoder().decode([Country].self, from: jsonData)
-        return formattedCountries ?? []
-    } catch {
-        print("Error converting to JSON: \(error)")
+    enum CodingKeys: String, CodingKey {
+        case iso2, iso3
+        case name = "country"
+        case cities
     }
 }
 
+struct SelectedSearchCity {
+    let name: String
+    let flag: String
+    let city: String
+}

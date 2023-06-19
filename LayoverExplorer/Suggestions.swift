@@ -70,10 +70,6 @@ struct Suggestions: View {
             Spacer()
         }
         .padding()
-        .onAppear {
-            print("*************")
-            print(suggestions.count)
-        }
     }
 }
 
